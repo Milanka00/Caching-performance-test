@@ -1,12 +1,18 @@
-version: "3.8"
+version: "3.7"
 
 services:
   envoy:
     build: ./envoy
     ports:
       - "10000:10000"
+
     networks:
       - proxy_network
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 500M
 
   backend:
     build: ./backend
@@ -14,6 +20,11 @@ services:
       - "8081:8081"
     networks:
       - proxy_network
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 1G
 
 networks:
   proxy_network:
